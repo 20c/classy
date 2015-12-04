@@ -300,7 +300,7 @@ classy.space = function(name, definition, space, source) {
       rv[i] = definition[i];
 
       // rebind class methods
-      if(cls) {
+      if(cls && cls.prototype[i].bind) {
         cls.prototype[i] = cls.prototype[i].bind(rv);
       }
     }
