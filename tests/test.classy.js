@@ -248,6 +248,9 @@ QUnit.test("space.fork", function(assert) {
     "B",
     { 
       "$test_class" : function() { return "test" },
+      "$test_class_context" : function(ctx) {
+        assert.equal(this, ctx);
+      },
       "hello" : function() { return this.A_hello()+" world" }
     }
   );
@@ -267,6 +270,11 @@ QUnit.test("space.fork", function(assert) {
   assert.equal(b.hello(), "hello world");
   assert.equal(c.hello(), "hello world, including the angry wombat");
   assert.equal(c.$test_class(), "test");
+
+  c.$test_class_context(test.C)
+  test.C.$test_class_context(test.C)
+  b.$test_class_context(test.B);
+  test.B.$test_class_context(test.B)
 
   var test2 = classy.space();
   test2.$define(
