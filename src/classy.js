@@ -247,7 +247,7 @@ classy.define_or_fork = function(name, definition, source) {
  * @returns classy object
  */
 
-classy.space = function(name, definition, space, source) {
+classy.space = function(name, definition, space, source, containerSource) {
   rv = {
     "$meta" : {
       "cls" : classy.define_or_fork(name, definition, source),
@@ -261,15 +261,21 @@ classy.space = function(name, definition, space, source) {
       return new F(this.$meta.cls, arguments);
     },
     "$define" : function(name, definition, source) {
+      var containerSource = []
       if(typeof source == "object" && source.length) {
         var i;
         for(i = 0; i < source.length; i++) {
+          if(source[i] && source[i].$meta) {
+            containerSource.push(source[i]);
+          }
           source[i] = (source[i] && source[i].$meta ? source[i].$meta.cls : source[i])
         }
-      } else if(source && source.$meta)
+      } else if(source && source.$meta) {
+        containerSource.push(source);
         source = [source.$meta.cls];
+      }
 
-      this[name] = classy.space(name, definition, this, source);
+      this[name] = classy.space(name, definition, this, source, containerSource);
     },
     "$fork" : function(name, definition, sources, space) {
       (space || this.$meta.space).$define(name, definition, classy.util.concat_array(this, sources));
@@ -282,12 +288,23 @@ classy.space = function(name, definition, space, source) {
     }
   }
 
-  var i, cls = rv.$meta.cls;
+  var i, j, cls = rv.$meta.cls;
+  var isCoreFunction = function(name) {
+    return (
+      name == '$meta' ||
+      name == '$define' ||
+      name == '$fork' ||
+      name == '$extend' ||
+      name == '$init'
+    )
+  }
   
-  if(source) {
-    for(i in source) {
-      if(i.charAt(0) == "$") {
-        rv[i] = source[i];
+  if(containerSource && containerSource.length > 0) {
+    for(i in containerSource) {
+      for(j in containerSource[i]) {
+        if(j.charAt(0) == "$" && !isCoreFunction(j)) {
+          rv[j] = containerSource[i][j];
+        }
       }
     }
   }
