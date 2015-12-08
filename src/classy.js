@@ -304,7 +304,8 @@ classy.space = function(name, definition, space, source, containerSource) {
       for(j in containerSource[i]) {
         if(j.charAt(0) == "$" && !isCoreFunction(j)) {
           if(typeof containerSource[i][j] == "function") {
-            rv.$meta.cls.prototype[j] = rv[j] = containerSource[i][j].bind(rv);
+            rv.$meta.cls.prototype[j] = containerSource[i][j].bind(rv);
+            rv[j] = containerSource[i][j]
           } else {
             rv.$meta.cls.prototype[j] = rv[j] = containerSource[i][j];
           }
