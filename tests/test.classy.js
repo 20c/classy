@@ -107,10 +107,17 @@ QUnit.test("classy.fork-multiple", function(assert) {
     }
   );
 
+  var classY2 = classy.fork(
+    "classY2",
+    {
+    },
+    classY
+  );
+
   var classZ = classy.fork(
     "classZ",
     {},
-    [classX, classY]
+    [classX, classY2]
   );
 
   var z = new classZ();

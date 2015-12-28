@@ -142,14 +142,17 @@ classy = {
 
       for(k in parent.prototype) {
         ctor.prototype[k] = parent.prototype[k]
+        if(typeof(parent.prototype[k]) == "function") {
+          ctor.prototype[parent.prototype._meta.name+"_"+k] = parent.prototype[k];
+        }
       }
 
       // cycle through definition and copy to class prototype
       for(k in definition) {
-        if(typeof(ctor.prototype[k]) == "function") {
+        //if(typeof(ctor.prototype[k]) == "function") {
           // function was already defined by parent, store backref
-          ctor.prototype[parent.prototype._meta.name+"_"+k] = parent.prototype[k];
-        }
+        //  ctor.prototype[parent.prototype._meta.name+"_"+k] = parent.prototype[k];
+        //}
         ctor.prototype[k] = definition[k]
       }
       
