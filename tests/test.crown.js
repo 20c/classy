@@ -1,5 +1,5 @@
-QUnit.test("classy.define", function(assert) {
-  var classA = classy.define(
+QUnit.test("crown.define", function(assert) {
+  var classA = crown.define(
     "classA",
     {
       "a":function(){return "z"}
@@ -10,8 +10,8 @@ QUnit.test("classy.define", function(assert) {
   assert.equal(a.a(), "z")
 });
 
-QUnit.test("classy.define-custom-ctor", function(assert) {
-  var classA = classy.define(
+QUnit.test("crown.define-custom-ctor", function(assert) {
+  var classA = crown.define(
     "classA",
     {
       "classA" : function(value) {this.value=value},
@@ -23,9 +23,9 @@ QUnit.test("classy.define-custom-ctor", function(assert) {
   assert.equal(a.a(), "z");
 });
 
-QUnit.test("classy.fork", function(assert) {
+QUnit.test("crown.fork", function(assert) {
 
-  var classA = classy.define(
+  var classA = crown.define(
     "classA",
     { 
       "a" : function() { return "hello" },
@@ -34,7 +34,7 @@ QUnit.test("classy.fork", function(assert) {
     }
   );
 
-  var classB = classy.fork(
+  var classB = crown.fork(
     "classB",
     {
       "a" : function() { return this.classA_a() + " world" }
@@ -42,7 +42,7 @@ QUnit.test("classy.fork", function(assert) {
     classA
   );
 
-  var classC = classy.fork(
+  var classC = crown.fork(
     "classC",
     {
       "a" : function() { return this.classB_a() + " and everybody else" }
@@ -50,7 +50,7 @@ QUnit.test("classy.fork", function(assert) {
     classB
   );
 
-  var classD = classy.define(
+  var classD = crown.define(
     "classD",
     {
       "classD" : function(a) {
@@ -59,13 +59,13 @@ QUnit.test("classy.fork", function(assert) {
     }
   );
 
-  var classE = classy.fork(
+  var classE = crown.fork(
     "classE",
     {},
     classD
   );
 
-  var classF = classy.fork(
+  var classF = crown.fork(
     "classF",
     {
       "classF" : function(a,r) {
@@ -92,29 +92,29 @@ QUnit.test("classy.fork", function(assert) {
   assert.equal(f.a, 100);
 });
 
-QUnit.test("classy.fork-multiple", function(assert) {
-  var classX = classy.define(
+QUnit.test("crown.fork-multiple", function(assert) {
+  var classX = crown.define(
     "classX",
     {
       "x_func" : function() { return "x" }
     }
   )
 
-  var classY = classy.define(
+  var classY = crown.define(
     "classY",
     {
       "y_func" : function() { return "y" }
     }
   );
 
-  var classY2 = classy.fork(
+  var classY2 = crown.fork(
     "classY2",
     {
     },
     classY
   );
 
-  var classZ = classy.fork(
+  var classZ = crown.fork(
     "classZ",
     {},
     [classX, classY2]
@@ -126,9 +126,9 @@ QUnit.test("classy.fork-multiple", function(assert) {
 
 });
 
-QUnit.test("classy.fork-custom-ctor", function(assert) {
+QUnit.test("crown.fork-custom-ctor", function(assert) {
 
-  var classA = classy.define(
+  var classA = crown.define(
     "classA",
     { 
       "classA" : function(value) { this.value = value },
@@ -136,7 +136,7 @@ QUnit.test("classy.fork-custom-ctor", function(assert) {
     }
   );
 
-  var classB = classy.fork(
+  var classB = crown.fork(
     "classB",
     {
       "classB" : function(value, multiplier) { 
@@ -154,24 +154,24 @@ QUnit.test("classy.fork-custom-ctor", function(assert) {
   assert.equal(b.a(), 20);
 });
 
-QUnit.test("classy.make_name", function(assert) {
+QUnit.test("crown.make_name", function(assert) {
   
-  assert.equal(classy.make_name("class-a"), "classA");
-  assert.equal(classy.make_name("class_a"), "class_a");
-  assert.equal(classy.make_name("class a b"), "classAB");
+  assert.equal(crown.make_name("class-a"), "classA");
+  assert.equal(crown.make_name("class_a"), "class_a");
+  assert.equal(crown.make_name("class a b"), "classAB");
 
 });
 
-QUnit.test("classy.override", function(assert) {
+QUnit.test("crown.override", function(assert) {
 
-  var classA = classy.define(
+  var classA = crown.define(
     "classA",
     { 
       a : function() { return 10; }
     }
   );
 
-  classy.override(classA, "a", function() { return this.classA_a() * 10; });
+  crown.override(classA, "a", function() { return this.classA_a() * 10; });
 
   var a = new classA();
 
@@ -179,15 +179,15 @@ QUnit.test("classy.override", function(assert) {
 });
 
 
-QUnit.test("classy.define_or_fork", function(assert) {
-  var A = classy.define_or_fork(
+QUnit.test("crown.define_or_fork", function(assert) {
+  var A = crown.define_or_fork(
     "A",
     {
       "hello" : function() { return "world" }
     }
   )
 
-  var B = classy.define_or_fork(
+  var B = crown.define_or_fork(
     "B",
     {
       "hello" : function() { return "hello " + this.A_hello(); }
@@ -199,10 +199,10 @@ QUnit.test("classy.define_or_fork", function(assert) {
   assert.equal(new B().hello(), "hello world");
 });
 
-QUnit.test("classy.space", function(assert) {
+QUnit.test("crown.space", function(assert) {
   
   // make new space
-  var test = classy.space();
+  var test = crown.space();
 
   assert.equal(typeof test.$define, "function");
   assert.equal(typeof test.$fork, "function");
@@ -213,7 +213,7 @@ QUnit.test("classy.space", function(assert) {
 
 QUnit.test("space.define", function(assert) {
 
-  var test = classy.space();
+  var test = crown.space();
 
   test.$define(
     "A",
@@ -244,7 +244,7 @@ QUnit.test("space.define", function(assert) {
 
 QUnit.test("space.fork", function(assert) {
   
-  test = classy.space();
+  test = crown.space();
   test.$define(
     "A",
     {
@@ -283,7 +283,7 @@ QUnit.test("space.fork", function(assert) {
   b.$test_class_context(test.B);
   test.B.$test_class_context(test.B)
 
-  var test2 = classy.space();
+  var test2 = crown.space();
   test2.$define(
     "B",
     {
@@ -301,7 +301,7 @@ QUnit.test("space.fork", function(assert) {
 
 QUnit.test("space.fork-multiple", function(assert) {
   
-  var test = classy.space();
+  var test = crown.space();
   test.$define("X", {"x":function(){return "x"}});
   test.$define("Y", {"y":function(){return "y"}});
   test.X.$fork("XY", {}, test.Y);
@@ -310,7 +310,7 @@ QUnit.test("space.fork-multiple", function(assert) {
   assert.equal(xy.x(), "x");
   assert.equal(xy.y(), "y");
 
-  var test2 = classy.space();
+  var test2 = crown.space();
   test2.$define("XY", {}, [test.X, test.Y]);
   var xy2 = test2.XY.$init();
   assert.equal(xy2.x(), "x");
@@ -320,7 +320,7 @@ QUnit.test("space.fork-multiple", function(assert) {
 
 QUnit.test("space.extend", function(assert) {
   
-  var test = classy.space();
+  var test = crown.space();
   test.$define(
     "A",
     {
@@ -343,7 +343,7 @@ QUnit.test("space.extend", function(assert) {
 });
 
 QUnit.test("chain-spacing", function(assert) {
-  var a = classy.space();
+  var a = crown.space();
   a.$define("b", { x : function() { return 1 }})
   a.b.$define("c", { x : function() { return 1 }});
 

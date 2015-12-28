@@ -11,7 +11,7 @@ An approach to javascript class management and namespacing
 
 ## Namespacing because we like it tidy.
 
-    var example = classy.space()
+    var example = crown.space()
 
 ## Define a class
 
@@ -32,7 +32,7 @@ An approach to javascript class management and namespacing
     var instance = example.MyClass.$init(10)
     instance.calc(); // 20
 
-## Each class defined in a classy space creates its own space
+## Each class defined in a crown space creates its own space
     
     example.MyClass.$define(
       "MySubClass",
@@ -59,7 +59,7 @@ An approach to javascript class management and namespacing
 
 ## Inheritance from multiple classes
 
-With classy it is possible to fork multiple classes into one new class that inherits the methods and properties of all the classes provided
+With crown it is possible to fork multiple classes into one new class that inherits the methods and properties of all the classes provided
 
     example.$define(
       "First",
@@ -151,19 +151,19 @@ and instance method / properties in a way that makes both of them easily accessi
 Our namespaced approach is a bit different then what you are probably used to, we like it because it keeps things
 nice and compartmentalized while also streamlining the process of class definition and inheritance.
 
-That said, if you want to stick to a more familiar approach to classes you can do so with the classy.define and
-classy.fork functions
+That said, if you want to stick to a more familiar approach to classes you can do so with the crown.define and
+crown.fork functions
 
 Note that this approach currently does not support '$' class methods. We intend to implement that in the future though. Just use the class prototype property for now.
 
-    var MyClass = classy.define(
+    var MyClass = crown.define(
       "MyClass",
       {
         "hello" : function() { return "hello" }
       }
     );
 
-    var MyOtherClass = classy.fork(
+    var MyOtherClass = crown.fork(
       "MyOtherClass",
       {
         "MyOtherClass" : function(name) { this.name = name },

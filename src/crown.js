@@ -1,5 +1,5 @@
 /**
- * classy - an approach to javascript classes and namespacing 
+ * crown - an approach to javascript classes and namespacing 
  * author: Stefan Pratter
  */
 
@@ -7,19 +7,19 @@
 
 /**
  * class helper functions
- * @class classy
+ * @class crown
  * @static
  */
 
-classy = {
+crown = {
 
   /**
    * converts a string into a standardized class name, replacing
    * invalid characters with valid ones.
    *
-   *     classy.make_name("class-a"); // classA
-   *     classy.make_name("class a b"); // classAB
-   *     classy.make_name("Class-A_B"); // ClassA_B
+   *     crown.make_name("class-a"); // classA
+   *     crown.make_name("class a b"); // classAB
+   *     crown.make_name("Class-A_B"); // ClassA_B
    *
    * @method make_name
    * @param {String} name base name
@@ -37,14 +37,14 @@ classy = {
 
   /**
    * create a new class - if you wish to extend a class take a look at
-   * {{#crossLink "cls/extend:method"}}classy.extend{{/crossLink}} 
+   * {{#crossLink "cls/extend:method"}}crown.extend{{/crossLink}} 
    * instead
    *
    * you may define a constructor in the definition by using the class
    * name you provide at __name__
    *
    * Note that if the name you provide is not a valid variable name
-   * it will be passed through classy.make_name to make it valid
+   * it will be passed through crown.make_name to make it valid
    *
    * ##examples
    *
@@ -60,7 +60,7 @@ classy = {
 
     var k;
 
-    name = classy.make_name(name);
+    name = crown.make_name(name);
     
     if(typeof(definition[name]) == "function") {
       // a constructor has been provided
@@ -96,7 +96,7 @@ classy = {
    * name you provide at __name__
    *
    * Note that if the name you provide is not a valid variable name
-   * it will be passed through classy.make_name to make it valid
+   * it will be passed through crown.make_name to make it valid
    *
    * ##examples
    * 
@@ -114,7 +114,7 @@ classy = {
   fork : function(name, definition, parents) {
     
     var k, i, parent;
-    name = classy.make_name(name);
+    name = crown.make_name(name);
     if(typeof parents == "function")
       var parents = [parents]
     
@@ -175,7 +175,7 @@ classy = {
    * overrides a method on the provided class
    *
    * @method override
-   * @param {Function} destClass A class created via __classy.define__ or __classy.extend__
+   * @param {Function} destClass A class created via __crown.define__ or __crown.extend__
    * @param {String} methodName name of method that you wish to override
    * @param {Function} method new method
    */
@@ -195,12 +195,12 @@ classy = {
 
 /**
  * util functions
- * @namespace classy
+ * @namespace crown
  * @class util
  * @static
  */
 
-classy.util = {
+crown.util = {
 
   /**
    * concat multiple arrays into one array
@@ -226,7 +226,7 @@ classy.util = {
 
 /**
  * define a new class - convenience wrapper for class definition 
- * @namespace classy
+ * @namespace crown
  * @function define_or_fork
  * @param {String} name name of the new class
  * @param {Object} definition object literal of methods ands attributes
@@ -234,26 +234,26 @@ classy.util = {
  * @returns {Function} constructor for new class
  */
 
-classy.define_or_fork = function(name, definition, source) {
+crown.define_or_fork = function(name, definition, source) {
   if(!name || !definition)
     return function(){};
   if(!source)
-    return classy.define(name, definition);
+    return crown.define(name, definition);
   else
-    return classy.fork(name, definition, source);
+    return crown.fork(name, definition, source);
 }
 
 /**
  * initialize a new space
- * @namespace classy
+ * @namespace crown
  * @function space 
- * @returns classy object
+ * @returns crown object
  */
 
-classy.space = function(name, definition, space, source, containerSource) {
+crown.space = function(name, definition, space, source, containerSource) {
   rv = {
     "$meta" : {
-      "cls" : classy.define_or_fork(name, definition, source),
+      "cls" : crown.define_or_fork(name, definition, source),
       "space" : space,
       "name" : name,
       "definition" : definition
@@ -278,15 +278,15 @@ classy.space = function(name, definition, space, source, containerSource) {
         source = [source.$meta.cls];
       }
 
-      this[name] = classy.space(name, definition, this, source, containerSource);
+      this[name] = crown.space(name, definition, this, source, containerSource);
     },
     "$fork" : function(name, definition, sources, space) {
-      (space || this.$meta.space).$define(name, definition, classy.util.concat_array(this, sources));
+      (space || this.$meta.space).$define(name, definition, crown.util.concat_array(this, sources));
     },
     "$extend" : function(definition) {
       var i;
       for(i in definition) {
-        classy.override(this.$meta.cls, i, definition[i]);
+        crown.override(this.$meta.cls, i, definition[i]);
       }
     }
   }
@@ -331,7 +331,7 @@ classy.space = function(name, definition, space, source, containerSource) {
     }
   }
   if(cls && cls.prototype._meta)
-    cls.prototype._meta.classy = rv;
+    cls.prototype._meta.crown = rv;
 
   return rv;
 }
